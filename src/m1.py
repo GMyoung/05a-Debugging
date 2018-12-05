@@ -3,7 +3,7 @@ This module lets you practice DEBUGGING when RUN-TIME EXCEPTIONS occur.
 
 Authors: David Mutchler, Vibha Alangar, Matt Boutell, Dave Fisher,
          Valerie Galluzzi, Mark Hays, Amanda Stouder, Aaron Wilkin,
-         their colleagues, and PUT_YOUR_NAME_HERE.
+         their colleagues, and Yicheng Yang.
 """  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
 
 import rosegraphics as rg
@@ -175,7 +175,7 @@ def broken_1(circle, window):
       :type window: rg.RoseWindow
     """
     circle.attach_to(window)
-    circle2 = rg.Circle(circle.radius * 2)
+    circle2 = rg.Circle(circle.center,circle.radius * 2)
     circle2.attach_to(window)
     window.render()
 
@@ -199,7 +199,7 @@ def broken_2(x, y, window):
       :type y:      int
       :type window: rg.RoseWindow
       """
-    circle = rg.Circle((x, y), 33)
+    circle = rg.Circle(rg.Point(x, y), 33)
     circle.attach_to(window)
     window.render()
 
@@ -239,7 +239,8 @@ def broken_3(n, point, length, distance_between_lines, window):
         line = rg.Line(a, b)
         line.attach_to(window)
         window.render(0.5)
-        b = b + distance_between_lines
+        a.x = a.x + distance_between_lines
+        b.x = b.x + distance_between_lines
 
 
 # -----------------------------------------------------------------------------
@@ -262,7 +263,7 @@ def broken_4(x, y, radius, window):
       :type radius: int
       :type window: rg.RoseWindow
       """
-    circle = rg.Circle(rg.Point(x, y), 'radius')
+    circle = rg.Circle(rg.Point(x, y), radius)
     circle.fill_color = 'green'
     circle.attach_to(window)
     window.render()
@@ -287,7 +288,7 @@ def broken_5(circle, window):
       :type window: rg.RoseWindow
     """
     circle.attach_to(window)
-    square = rg.Square(circle.center)
+    square = rg.Square(circle.center,2*circle.radius)
     square.outline_color = circle.fill_color
     square.attach_to(window)
     window.render()
@@ -304,8 +305,9 @@ def broken_6(n):
       1 + 1/2 + 1/3 + ... + 1/n.
     Side effects:   None.
     """
+
     total = 0
-    for k in range(n + 1):
+    for k in range(1,n+1):
         total = total + 1 / k
 
     return total
@@ -344,9 +346,10 @@ def broken_7(n, point, length, distance_between_lines, window):
     for _ in range(n):
         line = rg.Line(left, right)
         line.attach_to(window)
-        window.render(0.5)
         left = rg.Point(left.x, left.y + distance_between_lines)
         right = rg.Point(right.x, right.y + distance_between_lines)
+
+        window.render(0.5)
     window.close_on_mouse_click()
 
 
